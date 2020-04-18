@@ -34,5 +34,14 @@ namespace Assets.Source
                 transform.localScale = new Vector3(1, 1, 1);
             }
         }
+
+        public void OnCollisionEnter2D(Collision2D collision)
+        {
+            Baloon baloon;
+            if ((baloon = collision.gameObject.GetComponent<Baloon>()) != null)
+            {
+                baloon.Hit(gameObject);
+            }
+        }
     }
 }
