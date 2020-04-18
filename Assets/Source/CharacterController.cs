@@ -27,9 +27,13 @@ namespace Assets.Source
         private bool wasInTheAir = false;
         private float jumpTimeout = 0.1F;
         private float jumpTimeoutTimer = 0F;
+        private bool isOnRunEffectActive = true;
+        private Vector2 lastPosition;
 
         private Rigidbody2D characterRigidbody;
         public Transform GroundedChecker;
+        public GameObject PlayerJumpHitEffect;
+        public ParticleSystem OnRunEffect;
 
         private Animator playerAnimator;
         private const string isInAirAnimatorParam = "IsInAir";
@@ -41,6 +45,7 @@ namespace Assets.Source
             playerAnimator = GetComponent<Animator>();
             characterRigidbody = GetComponent<Rigidbody2D>();
             layerMask = LayerMask.GetMask(groundLayerName, enemiesLayerName);
+            lastPosition = transform.position;
         }
 
         public void FixedUpdate()
@@ -52,17 +57,37 @@ namespace Assets.Source
             if (Freeze)
                 return;
             ProcessInput();
+            MakeOnRunEffect();
+        }
+
+        private void MakeOnRunEffect()
+        {
+            float dx = transform.position.x - lastPosition.x;
+            lastPosition = transform.position;
+            
+            if (!isOnRunEffectActive && (!isInTheAir && Mathf.Abs(dx) > 0.08F))
+            {
+                isOnRunEffectActive = true;
+                OnRunEffect.Play();
+            }
+            else if (isOnRunEffectActive && (isInTheAir || Mathf.Abs(dx) <= 0.08F))
+            {
+                isOnRunEffectActive = false;
+                OnRunEffect.Stop();
+            }
         }
 
         private void ProcessInput()
         {
             if (Input.GetKey(KeyCode.A))
             {
+                //characterRigidbody.velocity = new Vector3(-Speed * Time.fixedDeltaTime * 40, characterRigidbody.velocity.y);
                 transform.position += new Vector3(-Speed * Time.fixedDeltaTime, 0);
                 transform.localScale = new Vector3(-1, 1, 1);
             }
             if (Input.GetKey(KeyCode.D))
             {
+                //characterRigidbody.velocity = new Vector3(Speed * Time.fixedDeltaTime * 40, characterRigidbody.velocity.y);
                 transform.position += new Vector3(Speed * Time.fixedDeltaTime, 0);
                 transform.localScale = new Vector3(1, 1, 1);
             }
@@ -103,6 +128,8 @@ namespace Assets.Source
                 playerAnimator.SetBool(isInAirAnimatorParam, false);
                 playerAnimator.SetTrigger(landingAnimatorParam);
 
+                OnRunEffect.Emit(15);
+
                 Enemy enemy = hits.FirstOrDefault(h => h.GetComponent<Enemy>() != null)?.GetComponent<Enemy>();
                 if (enemy != null)
                 {
@@ -123,6 +150,7 @@ namespace Assets.Source
         {
             if (force < -MinSpeedToKill)
             {
+                Destroy(Instantiate(PlayerJumpHitEffect, transform.position, Quaternion.identity), 2F);
                 Jump();
                 enemy.TryDie();
             }
