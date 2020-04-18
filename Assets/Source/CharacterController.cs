@@ -74,7 +74,7 @@ namespace Assets.Source
 
         private IEnumerator DetectGround()
         {
-            if (Physics2D.OverlapBoxAll(GroundedChecker.position, new Vector2(0.6F, 0.01F), 0).Length > 1)
+            if (Physics2D.OverlapBoxAll(GroundedChecker.position, new Vector2(0.3F, 0.01F), 0).Length > 1)
             {
                 // Waiting for next physics frame to let is recalculate our vertical velocity
                 yield return new WaitForFixedUpdate();
