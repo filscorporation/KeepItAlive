@@ -23,8 +23,13 @@ namespace Assets.Source
         private Animator baloonAnimator;
         private const string speedAnimatorParam = "Speed";
 
+        public static int BaloonLayerMask;
+        private const string baloonLayerName = "Baloon";
+
         private void Awake()
         {
+            BaloonLayerMask = LayerMask.GetMask(baloonLayerName);
+
             baloonRigidbody = GetComponent<Rigidbody2D>();
             baloonAnimator = GetComponent<Animator>();
         }
@@ -37,6 +42,15 @@ namespace Assets.Source
         private void AnimateStretch()
         {
             baloonAnimator.SetFloat(speedAnimatorParam, baloonRigidbody.velocity.magnitude);
+        }
+
+        /// <summary>
+        /// Baloon was hit by enemy or projectile
+        /// </summary>
+        /// <param name="hit"></param>
+        public void Hit(GameObject hit)
+        {
+            Debug.Log("Dead(");
         }
     }
 }

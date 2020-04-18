@@ -159,6 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   Freeze: 0
+  BeeProjectile: {fileID: 7755627444648480121, guid: fa3362488bc80454ba648378f6516892,
+    type: 3}
   Speed: 1
   MinDistance: 5
   AttackTimeout: 4

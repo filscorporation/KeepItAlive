@@ -16,6 +16,7 @@ namespace Assets.Source
     public class Bee : Enemy
     {
         public bool Freeze = false;
+        public GameObject BeeProjectile;
 
         private Vector2 basePosition;
         private const float flyAmplitude = 0.5F;
@@ -34,6 +35,8 @@ namespace Assets.Source
 
             basePosition = transform.position;
             flyOffset = Random.Range(0, 1F);
+            AttackTimeout += Random.Range(0, 1F);
+            MinDistance += Random.Range(-1F, 1F);
             attackTimeoutTimer = AttackTimeout;
             beeAnimator = GetComponent<Animator>();
         }
@@ -54,6 +57,8 @@ namespace Assets.Source
             {
                 beeAnimator.SetTrigger(attackAnimatorParam);
                 attackTimeoutTimer = AttackTimeout;
+                Projectile p = Instantiate(BeeProjectile, transform.position, Quaternion.identity).GetComponent<Projectile>();
+                p.Initialize(Player.Baloon.transform.position);
             }
         }
 

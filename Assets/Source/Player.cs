@@ -16,6 +16,7 @@ namespace Assets.Source
         public CharacterController PlayerCharacterController { get; private set; }
 
         public Transform Hand;
+        public Baloon Baloon;
 
         public void Start()
         {
