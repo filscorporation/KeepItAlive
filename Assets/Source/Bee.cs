@@ -21,7 +21,9 @@ namespace Assets.Source
         private Vector2 basePosition;
         private const float flyAmplitude = 0.5F;
         public float Speed = 1F;
-        public float MinDistance = 5F;
+        private float minDistanceFrom;
+        public float MinDistanceFrom = 5F;
+        public float MinDistanceTo = 5F;
         public float AttackTimeout = 4F;
         private float attackTimeoutTimer = 0F;
         private float flyOffset;
@@ -36,7 +38,7 @@ namespace Assets.Source
             basePosition = transform.position;
             flyOffset = Random.Range(0, 1F);
             AttackTimeout += Random.Range(0, 1F);
-            MinDistance += Random.Range(-1F, 1F);
+            minDistanceFrom = Random.Range(MinDistanceFrom, MinDistanceTo);
             attackTimeoutTimer = AttackTimeout;
             beeAnimator = GetComponent<Animator>();
         }
@@ -64,7 +66,7 @@ namespace Assets.Source
 
         private void Fly()
         {
-            if (Vector2.Distance(Player.transform.position, basePosition) > MinDistance)
+            if (Vector2.Distance(Player.transform.position, basePosition) > minDistanceFrom)
             {
                 basePosition = Vector2.MoveTowards(basePosition, Player.transform.position, Speed * Time.deltaTime);
             }

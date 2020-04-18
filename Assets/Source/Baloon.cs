@@ -46,6 +46,7 @@ namespace Assets.Source
         /// <param name="hit"></param>
         public void Hit(GameObject hit)
         {
+            return;
             if (!alive)
                 return;
 

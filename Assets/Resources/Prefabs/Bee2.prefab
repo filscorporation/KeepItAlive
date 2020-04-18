@@ -165,5 +165,6 @@ MonoBehaviour:
   BeeProjectile: {fileID: 7755627444648480121, guid: fa3362488bc80454ba648378f6516892,
     type: 3}
   Speed: 2
-  MinDistance: 1
+  MinDistanceFrom: 1
+  MinDistanceTo: 2
   AttackTimeout: 7
