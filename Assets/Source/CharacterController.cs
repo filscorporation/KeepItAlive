@@ -14,6 +14,10 @@ namespace Assets.Source
     [RequireComponent(typeof(Rigidbody2D))]
     public class CharacterController : MonoBehaviour
     {
+        private const string groundLayerName = "Ground";
+        private const string enemiesLayerName = "Enemies";
+        private int layerMask;
+
         public float JumpForce = 10F;
         public float Speed = 5F;
 
@@ -28,14 +32,14 @@ namespace Assets.Source
         public void Awake()
         {
             characterRigidbody = GetComponent<Rigidbody2D>();
+            layerMask = LayerMask.GetMask(groundLayerName, enemiesLayerName);
         }
 
         public void FixedUpdate()
         {
             jumpTimeoutTimer = Mathf.Max(0, jumpTimeoutTimer - Time.fixedDeltaTime);
 
-            if (isInTheAir)
-                StartCoroutine(DetectGround());
+            DetectGround();
 
             if (Freeze)
                 return;
@@ -72,15 +76,17 @@ namespace Assets.Source
             jumpTimeoutTimer = jumpTimeout;
         }
 
-        private IEnumerator DetectGround()
+        private void DetectGround()
         {
-            if (Physics2D.OverlapBoxAll(GroundedChecker.position, new Vector2(0.3F, 0.01F), 0).Length > 1)
+            if (Physics2D.OverlapBoxAll(GroundedChecker.position, new Vector2(0.3F, 0.01F), 0, layerMask).Any())
             {
-                // Waiting for next physics frame to let is recalculate our vertical velocity
-                yield return new WaitForFixedUpdate();
                 // Remove vertical velocity before jump to make it correct after fall and not let it stack
                 characterRigidbody.velocity = new Vector2(characterRigidbody.velocity.x, 0F);
                 isInTheAir = false;
+            }
+            else
+            {
+                isInTheAir = true;
             }
         }
     }
