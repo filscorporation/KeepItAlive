@@ -22,5 +22,10 @@ namespace Assets.Source
         {
             PlayerCharacterController = GetComponent<CharacterController>();
         }
+
+        public void Dead()
+        {
+            PlayerCharacterController.Dead();
+        }
     }
 }

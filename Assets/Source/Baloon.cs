@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor.Animations;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Source
 {
@@ -22,6 +16,7 @@ namespace Assets.Source
 
         private Animator baloonAnimator;
         private const string speedAnimatorParam = "Speed";
+        private const string deadAnimatorParam = "Dead";
 
         public static int BaloonLayerMask;
         private const string baloonLayerName = "Baloon";
@@ -50,7 +45,10 @@ namespace Assets.Source
         /// <param name="hit"></param>
         public void Hit(GameObject hit)
         {
-            Debug.Log("Dead(");
+            baloonAnimator.SetTrigger(deadAnimatorParam);
+            baloonRigidbody.gravityScale *= -1;
+            
+            GameManager.Instance.BaloonDead();
         }
     }
 }
