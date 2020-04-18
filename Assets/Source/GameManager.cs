@@ -1,19 +1,36 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Source
 {
+    /// <summary>
+    /// Controls main game operations
+    /// </summary>
     public class GameManager : MonoBehaviour
     {
-        private static GameManager instance;
-        public static GameManager Instance => instance ?? (instance = FindObjectOfType<GameManager>());
+        public static GameManager Instance { get; private set; }
 
         private Player player;
         private bool GameEnded = false;
 
-        public void Start()
+        public const string BestScorePref = "BestScore";
+        private DateTime gameStartTime;
+        private int additionalScore = 0;
+        public int Score = 0;
+        public int BestScore = 0;
+
+        public void Awake()
         {
+            Instance = FindObjectOfType<GameManager>();
             player = FindObjectOfType<Player>();
+            BestScore = PlayerPrefs.GetInt(BestScorePref);
+            gameStartTime = DateTime.Now;
+        }
+
+        public void Update()
+        {
+            Score = (int)Math.Round((DateTime.Now - gameStartTime).TotalSeconds) + additionalScore;
         }
 
         public void BaloonDead()
@@ -24,13 +41,28 @@ namespace Assets.Source
 
             player.Dead();
             player.PlayerCharacterController.Freeze = true;
-            Invoke(nameof(RestartGame), 3F);
+
+            FindObjectOfType<UIManager>().ShowGameEndPanel();
         }
 
-        private void RestartGame()
+        /// <summary>
+        /// Adds value to currentr score
+        /// </summary>
+        /// <param name="s"></param>
+        public void AddScore(int s)
         {
-            instance = null;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            additionalScore += s;
+        }
+
+        public void SaveScore()
+        {
+            if (Score > BestScore)
+                PlayerPrefs.SetInt(BestScorePref, Score);
+        }
+
+        public void OnApplicationQuit()
+        {
+            SaveScore();
         }
     }
 }

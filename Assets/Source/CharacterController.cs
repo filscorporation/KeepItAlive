@@ -158,7 +158,7 @@ namespace Assets.Source
 
         public void AnimateDead()
         {
-            playerAnimator.SetTrigger(deadAnimatorParam);
+            playerAnimator?.SetTrigger(deadAnimatorParam);
         }
     }
 }

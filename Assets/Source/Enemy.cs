@@ -10,6 +10,7 @@ namespace Assets.Source
         public Player Player;
         public bool DeadFromPlayerJump = true;
         public GameObject OnDeathEffect;
+        public int Cost = 10;
 
         private bool leftRotation = true;
 
@@ -45,6 +46,8 @@ namespace Assets.Source
         {
             if (!DeadFromPlayerJump)
                 return;
+
+            GameManager.Instance.AddScore(Cost);
 
             if (OnDeathEffect != null)
                 Destroy(Instantiate(OnDeathEffect, transform.position, Quaternion.identity), 5F);
