@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Source
 {
@@ -13,6 +8,8 @@ namespace Assets.Source
     public class Enemy : MonoBehaviour
     {
         public Player Player;
+        public bool DeadFromPlayerJump = true;
+        public GameObject OnDeathEffect;
 
         private bool leftRotation = true;
 
@@ -42,6 +39,16 @@ namespace Assets.Source
             {
                 baloon.Hit(gameObject);
             }
+        }
+
+        public void TryDie()
+        {
+            if (!DeadFromPlayerJump)
+                return;
+
+            if (OnDeathEffect != null)
+                Destroy(Instantiate(OnDeathEffect, transform.position, Quaternion.identity), 5F);
+            Destroy(gameObject);
         }
     }
 }

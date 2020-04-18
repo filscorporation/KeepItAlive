@@ -13,6 +13,7 @@ namespace Assets.Source
 
         public Rope Rope;
         private Rigidbody2D baloonRigidbody;
+        private bool alive = true;
 
         private Animator baloonAnimator;
         private const string speedAnimatorParam = "Speed";
@@ -45,6 +46,10 @@ namespace Assets.Source
         /// <param name="hit"></param>
         public void Hit(GameObject hit)
         {
+            if (!alive)
+                return;
+
+            alive = false;
             baloonAnimator.SetTrigger(deadAnimatorParam);
             baloonRigidbody.gravityScale *= -1;
             

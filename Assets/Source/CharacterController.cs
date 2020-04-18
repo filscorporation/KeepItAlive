@@ -20,6 +20,7 @@ namespace Assets.Source
 
         public float JumpForce = 10F;
         public float Speed = 5F;
+        public float MinSpeedToKill = 2F;
 
         public bool Freeze = false;
         private bool isInTheAir = false;
@@ -88,16 +89,25 @@ namespace Assets.Source
 
         private void DetectGround()
         {
-            if (Physics2D.OverlapBoxAll(GroundedChecker.position, new Vector2(0.1F, 0.01F), 0, layerMask).Any())
+            Collider2D[] hits;
+            if ((hits = Physics2D.OverlapBoxAll(GroundedChecker.position, new Vector2(0.1F, 0.01F), 0, layerMask)).Any())
             {
                 if (!wasInTheAir)
                     return;
+
+                float force = characterRigidbody.velocity.y;
                 // Remove vertical velocity before jump to make it correct after fall and not let it stack
                 characterRigidbody.velocity = new Vector2(characterRigidbody.velocity.x, 0F);
                 isInTheAir = false;
                 wasInTheAir = false;
                 playerAnimator.SetBool(isInAirAnimatorParam, false);
                 playerAnimator.SetTrigger(landingAnimatorParam);
+
+                Enemy enemy = hits.FirstOrDefault(h => h.GetComponent<Enemy>() != null)?.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    TryAttackOnLanding(enemy, force);
+                }
             }
             else
             {
@@ -109,7 +119,16 @@ namespace Assets.Source
             }
         }
 
-        public void Dead()
+        private void TryAttackOnLanding(Enemy enemy, float force)
+        {
+            if (force < -MinSpeedToKill)
+            {
+                Jump();
+                enemy.TryDie();
+            }
+        }
+
+        public void AnimateDead()
         {
             playerAnimator.SetTrigger(deadAnimatorParam);
         }

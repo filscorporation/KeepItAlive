@@ -25,7 +25,7 @@ namespace Assets.Source
 
         public void Dead()
         {
-            PlayerCharacterController.Dead();
+            PlayerCharacterController.AnimateDead();
         }
     }
 }
