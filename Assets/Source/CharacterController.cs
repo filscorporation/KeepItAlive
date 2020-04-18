@@ -23,14 +23,21 @@ namespace Assets.Source
 
         public bool Freeze = false;
         private bool isInTheAir = false;
+        private bool wasInTheAir = false;
         private float jumpTimeout = 0.1F;
         private float jumpTimeoutTimer = 0F;
 
         private Rigidbody2D characterRigidbody;
         public Transform GroundedChecker;
 
+        private Animator playerAnimator;
+        private const string isInAirAnimatorParam = "IsInAir";
+        private const string landingAnimatorParam = "Landing";
+        private const string deadAnimatorParam = "Dead";
+
         public void Awake()
         {
+            playerAnimator = GetComponent<Animator>();
             characterRigidbody = GetComponent<Rigidbody2D>();
             layerMask = LayerMask.GetMask(groundLayerName, enemiesLayerName);
         }
@@ -51,10 +58,12 @@ namespace Assets.Source
             if (Input.GetKey(KeyCode.A))
             {
                 transform.position += new Vector3(-Speed * Time.fixedDeltaTime, 0);
+                transform.localScale = new Vector3(-1, 1, 1);
             }
             if (Input.GetKey(KeyCode.D))
             {
                 transform.position += new Vector3(Speed * Time.fixedDeltaTime, 0);
+                transform.localScale = new Vector3(1, 1, 1);
             }
             if (Input.GetKey(KeyCode.W))
             {
@@ -72,22 +81,37 @@ namespace Assets.Source
 
             characterRigidbody.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
             isInTheAir = true;
+            wasInTheAir = true;
             // Don't let player jump multiple frames in a row
             jumpTimeoutTimer = jumpTimeout;
         }
 
         private void DetectGround()
         {
-            if (Physics2D.OverlapBoxAll(GroundedChecker.position, new Vector2(0.3F, 0.01F), 0, layerMask).Any())
+            if (Physics2D.OverlapBoxAll(GroundedChecker.position, new Vector2(0.1F, 0.01F), 0, layerMask).Any())
             {
+                if (!wasInTheAir)
+                    return;
                 // Remove vertical velocity before jump to make it correct after fall and not let it stack
                 characterRigidbody.velocity = new Vector2(characterRigidbody.velocity.x, 0F);
                 isInTheAir = false;
+                wasInTheAir = false;
+                playerAnimator.SetBool(isInAirAnimatorParam, false);
+                playerAnimator.SetTrigger(landingAnimatorParam);
             }
             else
             {
+                if (wasInTheAir)
+                    return;
                 isInTheAir = true;
+                wasInTheAir = true;
+                playerAnimator.SetBool(isInAirAnimatorParam, true);
             }
+        }
+
+        public void Dead()
+        {
+            playerAnimator.SetTrigger(deadAnimatorParam);
         }
     }
 }
