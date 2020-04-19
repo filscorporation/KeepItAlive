@@ -8,6 +8,8 @@ namespace Assets.Source
     /// </summary>
     public class CameraController : MonoBehaviour
     {
+        public float SceneWidth = 14F;
+
         public float MaxOffset = 0.5F;
         private float shakeDeduction = 0.6F;
         private Vector3 basePosition;
@@ -24,6 +26,8 @@ namespace Assets.Source
 
         public void Update()
         {
+            Scale();
+
             if (!isShaking)
                 return;
 
@@ -34,6 +38,13 @@ namespace Assets.Source
             shakeForce -= Time.deltaTime * shakeDeduction;
             if (shakeForce <= 0)
                 isShaking = false;
+        }
+
+        public void Scale()
+        {
+            float ratio = Screen.width / (float)Screen.height;
+
+            Camera.main.orthographicSize = SceneWidth / ratio;
         }
 
         /// <summary>
