@@ -12,6 +12,7 @@ namespace Assets.Source
         private const string MainMenuSceneName = "MenuScene";
 
         public GameObject GameEndPanel;
+        public Text GameEndPanelScore;
         public Text ScoreText;
         public Text BestScoreText;
         private Player player;
@@ -36,6 +37,7 @@ namespace Assets.Source
         public void ShowGameEndPanel()
         {
             GameEndPanel.SetActive(true);
+            GameEndPanelScore.text = $"Score: {GameManager.Instance.Score}";
         }
 
         public void ToMainMenuButtonClick()

@@ -14,6 +14,9 @@ namespace Assets.Source
         private Player player;
         private bool GameEnded = false;
 
+        public GameObject TutorialPanel;
+        public const string TutorialDonePref = "TutorialDone";
+
         public const string BestScorePref = "BestScore";
         private DateTime gameStartTime;
         private int additionalScore = 0;
@@ -28,9 +31,29 @@ namespace Assets.Source
             gameStartTime = DateTime.Now;
         }
 
+        public void Start()
+        {
+            ShowTutorial();
+        }
+
         public void Update()
         {
-            Score = (int)Math.Round((DateTime.Now - gameStartTime).TotalSeconds) + additionalScore;
+            if (!GameEnded)
+                Score = (int)Math.Round((DateTime.Now - gameStartTime).TotalSeconds) + additionalScore;
+        }
+
+        private void ShowTutorial()
+        {
+            if (PlayerPrefs.GetInt(TutorialDonePref) == 0)
+            {
+                PlayerPrefs.SetInt(TutorialDonePref, 1);
+                TutorialPanel.SetActive(true);
+            }
+        }
+
+        public void HideTutorial()
+        {
+            TutorialPanel.SetActive(false);
         }
 
         public void BaloonDead()
@@ -51,13 +74,17 @@ namespace Assets.Source
         /// <param name="s"></param>
         public void AddScore(int s)
         {
-            additionalScore += s;
+            if (!GameEnded)
+                additionalScore += s;
         }
 
         public void SaveScore()
         {
             if (Score > BestScore)
+            {
                 PlayerPrefs.SetInt(BestScorePref, Score);
+                PlayerPrefs.Save();
+            }
         }
 
         public void OnApplicationQuit()

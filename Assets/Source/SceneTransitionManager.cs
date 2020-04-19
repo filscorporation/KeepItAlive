@@ -14,6 +14,11 @@ namespace Assets.Source
         private bool isInTransitionFrom = true;
         private bool isInTransitionTo = false;
 
+        public void Start()
+        {
+            Panel.SetActive(true);
+        }
+
         public void Update()
         {
             if (isInTransitionFrom)
