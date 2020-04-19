@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8375265830498764865}
   - component: {fileID: 3359742017330526242}
   m_Layer: 12
-  m_Name: PowerUpEffect
+  m_Name: BombEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4821,7 +4821,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 30350aa419af54b478557573f57d3a06, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3f014375bdc644249a6164616e2a046a, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.664
   m_Pitch: 1

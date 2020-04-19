@@ -34,6 +34,8 @@ namespace Assets.Source
         public Transform GroundedChecker;
         public GameObject PlayerJumpHitEffect;
         public ParticleSystem OnRunEffect;
+        public AudioClip JumpAudioEffect;
+        public AudioClip HitAudioEffect;
 
         private Animator playerAnimator;
         private const string isInAirAnimatorParam = "IsInAir";
@@ -105,6 +107,7 @@ namespace Assets.Source
             if (Mathf.Abs(jumpTimeoutTimer) > Mathf.Epsilon)
                 return;
 
+            GetComponent<AudioSource>().PlayOneShot(JumpAudioEffect);
             characterRigidbody.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
             isInTheAir = true;
             wasInTheAir = true;
@@ -133,6 +136,7 @@ namespace Assets.Source
                 Enemy enemy = hits.FirstOrDefault(h => h.GetComponent<Enemy>() != null)?.GetComponent<Enemy>();
                 if (enemy != null)
                 {
+                    GetComponent<AudioSource>().PlayOneShot(HitAudioEffect);
                     TryAttackOnLanding(enemy, force);
                 }
             }

@@ -15,6 +15,7 @@ namespace Assets.Source
     {
         public GameObject SpawnEffect;
         public SpawnerType SpawnerType = SpawnerType.Enemy;
+        public AudioClip SpawnAudioEffect;
 
         /// <summary>
         /// Spawns an enemy
@@ -24,6 +25,7 @@ namespace Assets.Source
         {
             Instantiate(prefab, transform.position, Quaternion.identity);
             Destroy(Instantiate(SpawnEffect, transform.position, Quaternion.identity), 3F);
+            GetComponent<AudioSource>().PlayOneShot(SpawnAudioEffect);
         }
     }
 }

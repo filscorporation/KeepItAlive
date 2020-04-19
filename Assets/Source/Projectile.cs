@@ -2,10 +2,14 @@
 
 namespace Assets.Source
 {
+    /// <summary>
+    /// Projectile
+    /// </summary>
     public class Projectile : MonoBehaviour
     {
         public float Speed = 10F;
         public GameObject Effect;
+        public GameObject ExplosionEffect;
 
         public void Update()
         {
@@ -49,6 +53,8 @@ namespace Assets.Source
 
                 if (Effect != null)
                     Destroy(Instantiate(Effect, transform.position, Quaternion.identity), 2F);
+                if (ExplosionEffect != null)
+                    Destroy(Instantiate(ExplosionEffect, transform.position, Quaternion.identity), 2F);
                 Destroy(gameObject);
 
                 return;

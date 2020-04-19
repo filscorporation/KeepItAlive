@@ -145,7 +145,7 @@ MonoBehaviour:
   BonusType: 3
   Duration: 6
   Lifetime: 8
-  Effect: {fileID: 8375265830498764894, guid: 3b2867734447080448327c1a5ebf1c83, type: 3}
+  Effect: {fileID: 8375265830498764894, guid: 68072841959300f408d1815836b5a79c, type: 3}
 --- !u!1 &1344206962822046515
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ namespace Assets.Source
     public class BigBee : BaseBee
     {
         public GameObject BeeProjectile;
+        public AudioClip ShootAudioEffect;
 
         public float Speed = 0.5F;
         private float minDistanceFrom;
@@ -41,6 +42,7 @@ namespace Assets.Source
         {
             if (Mathf.Abs(attackTimeoutTimer) < Mathf.Epsilon)
             {
+                GetComponent<AudioSource>().PlayOneShot(ShootAudioEffect);
                 attackTimeoutTimer = AttackTimeout;
                 for (int i = 0; i < 5; i++)
                 {

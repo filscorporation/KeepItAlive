@@ -9,7 +9,8 @@ namespace Assets.Source
     public class ShootingBee : BaseBee
     {
         public GameObject BeeProjectile;
-        
+        public AudioClip ShootAudioEffect;
+
         public float Speed = 1F;
         private float minDistanceFrom;
         public float MinDistanceFrom = 5F;
@@ -42,6 +43,7 @@ namespace Assets.Source
         {
             if (Mathf.Abs(attackTimeoutTimer) < Mathf.Epsilon)
             {
+                GetComponent<AudioSource>().PlayOneShot(ShootAudioEffect);
                 beeAnimator.SetTrigger(attackAnimatorParam);
                 attackTimeoutTimer = AttackTimeout;
                 Projectile p = Instantiate(BeeProjectile, transform.position, Quaternion.identity).GetComponent<Projectile>();

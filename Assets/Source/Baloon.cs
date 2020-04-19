@@ -10,6 +10,7 @@ namespace Assets.Source
     {
         public Player Player;
         public Color RopeColor = Color.black;
+        public AudioClip PopAudioEffect;
 
         public Rope Rope;
         private Rigidbody2D baloonRigidbody;
@@ -65,6 +66,7 @@ namespace Assets.Source
             if (!alive || isArmoured)
                 return;
 
+            GetComponent<AudioSource>().PlayOneShot(PopAudioEffect);
             alive = false;
             baloonAnimator.SetTrigger(deadAnimatorParam);
             baloonRigidbody.gravityScale *= -1;
