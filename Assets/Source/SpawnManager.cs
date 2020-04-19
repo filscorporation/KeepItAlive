@@ -18,12 +18,15 @@ namespace Assets.Source
         public GameObject BombPrefab;
         public GameObject HarderEnemyPrefabs;
         public float HarderEnemiesAddTime = 10F;
+        private bool harderEnemySpawned = false;
         private float harderEnemiesAddTimer;
         public float SpawnTimeout = 4F;
         private float spawnTimer = 4F;
         public float ScaleFactor = 0.05F;
         public float DebuffSpawnTimeout = 10F;
         private float debuffSpawnTimer = 10F;
+        public float BombSpawnTimeout = 20F;
+        private float bombSpawnTimer = 20F;
         
         public void Awake()
         {
@@ -37,26 +40,40 @@ namespace Assets.Source
             debuffSpawnTimer = DebuffSpawnTimeout;
             debuffSpawners = FindObjectsOfType<Spawner>().Where(s => s.SpawnerType == SpawnerType.Debuff).ToList();
             harderEnemiesAddTimer = HarderEnemiesAddTime;
+            bombSpawnTimer = BombSpawnTimeout;
         }
 
         public void Update()
         {
             spawnTimer = Mathf.Max(0, spawnTimer - Time.deltaTime);
-            SpawnTimeout = Mathf.Max(0.5F, SpawnTimeout - ScaleFactor * Time.deltaTime);
+            SpawnTimeout = Mathf.Max(1.0F, SpawnTimeout - ScaleFactor * Time.deltaTime);
             if (Mathf.Abs(spawnTimer) < Mathf.Epsilon)
             {
                 Spawn();
             }
+
             debuffSpawnTimer = Mathf.Max(0, debuffSpawnTimer - Time.deltaTime);
             if (Mathf.Abs(debuffSpawnTimer) < Mathf.Epsilon)
             {
                 SpawnDebuff();
             }
-            harderEnemiesAddTimer = Mathf.Max(0, harderEnemiesAddTimer - Time.deltaTime);
-            if (Mathf.Abs(harderEnemiesAddTimer) < Mathf.Epsilon)
+
+            if (!harderEnemySpawned)
             {
-                EnemiesPrefabs.Add(HarderEnemyPrefabs);
-                harderEnemiesAddTimer = 20F;
+                harderEnemiesAddTimer = Mathf.Max(0, harderEnemiesAddTimer - Time.deltaTime);
+                if (Mathf.Abs(harderEnemiesAddTimer) < Mathf.Epsilon)
+                {
+                    harderEnemySpawned = true;
+                    EnemiesPrefabs.Add(HarderEnemyPrefabs);
+                    harderEnemiesAddTimer = 20F;
+                }
+            }
+
+            bombSpawnTimer = Mathf.Max(0, bombSpawnTimer - Time.deltaTime);
+            if (Mathf.Abs(bombSpawnTimer) < Mathf.Epsilon)
+            {
+                SpawnBomb();
+                bombSpawnTimer = BombSpawnTimeout;
             }
         }
 
