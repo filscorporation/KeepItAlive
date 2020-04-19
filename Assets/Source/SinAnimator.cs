@@ -10,7 +10,7 @@ namespace Assets.Source
     public class SinAnimator : MonoBehaviour
     {
         private Vector2 basePosition;
-        private const float flyAmplitude = 0.5F;
+        public float FlyAmplitude = 0.5F;
         private float flyOffset;
 
         public void Start()
@@ -28,7 +28,7 @@ namespace Assets.Source
         {
             transform.position = new Vector2(
                 basePosition.x,
-                basePosition.y + Mathf.Sin((DateTime.Now.Millisecond / 1000F + flyOffset) * 2 * Mathf.PI) * flyAmplitude);
+                basePosition.y + Mathf.Sin((DateTime.Now.Millisecond / 1000F + flyOffset) * 2 * Mathf.PI) * FlyAmplitude);
         }
     }
 }

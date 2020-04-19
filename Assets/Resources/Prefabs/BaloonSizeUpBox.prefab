@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BonusType: 1
-  Duration: 10
+  Duration: 6
   Lifetime: 8
   Effect: {fileID: 8375265830498764894, guid: 3d78f0f9201f93d40bab6c87efd73116, type: 3}
 --- !u!1 &4086062909196960354
