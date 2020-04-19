@@ -1,2 +1,2 @@
-# KeepItAlive
-Game made for Ludum Dare 46
+# Beeees
+Game made for Ludum Dare 46 with theme Keep It Alive
