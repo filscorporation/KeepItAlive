@@ -7,17 +7,32 @@ namespace Assets.Source
 {
     public class SpawnManager : MonoBehaviour
     {
+        public static SpawnManager Instance { get; private set; }
+
         private List<Spawner> spawners;
+        private List<Spawner> debuffSpawners;
 
         public List<GameObject> EnemiesPrefabs;
+        public List<GameObject> DebuffPrefabs;
+        public List<GameObject> PowerUpPrefabs;
+        public GameObject BombPrefab;
         public float SpawnTimeout = 4F;
         private float spawnTimer = 4F;
         public float ScaleFactor = 0.05F;
+        public float DebuffSpawnTimeout = 10F;
+        private float debuffSpawnTimer = 10F;
+        
+        public void Awake()
+        {
+            Instance = FindObjectOfType<SpawnManager>();
+        }
 
         public void Start()
         {
             spawnTimer = SpawnTimeout;
-            spawners = FindObjectsOfType<Spawner>().ToList();
+            spawners = FindObjectsOfType<Spawner>().Where(s => s.SpawnerType == SpawnerType.Enemy).ToList();
+            debuffSpawnTimer = DebuffSpawnTimeout;
+            debuffSpawners = FindObjectsOfType<Spawner>().Where(s => s.SpawnerType == SpawnerType.Debuff).ToList();
         }
 
         public void Update()
@@ -28,12 +43,36 @@ namespace Assets.Source
             {
                 Spawn();
             }
+            debuffSpawnTimer = Mathf.Max(0, debuffSpawnTimer - Time.deltaTime);
+            if (Mathf.Abs(debuffSpawnTimer) < Mathf.Epsilon)
+            {
+                SpawnDebuff();
+            }
         }
 
         private void Spawn()
         {
             spawners[Random.Range(0, spawners.Count)].Spawn(EnemiesPrefabs[Random.Range(0, EnemiesPrefabs.Count)]);
             spawnTimer = SpawnTimeout;
+        }
+
+        private void SpawnDebuff()
+        {
+            debuffSpawners[Random.Range(0, debuffSpawners.Count)].Spawn(DebuffPrefabs[Random.Range(0, DebuffPrefabs.Count)]);
+            debuffSpawnTimer = DebuffSpawnTimeout;
+        }
+
+        public void SpawnPowerUp(float probability)
+        {
+            if (Random.Range(0, 1F) < probability)
+            {
+                debuffSpawners[Random.Range(0, debuffSpawners.Count)].Spawn(PowerUpPrefabs[Random.Range(0, PowerUpPrefabs.Count)]);
+            }
+        }
+
+        public void SpawnBomb()
+        {
+            debuffSpawners[Random.Range(0, debuffSpawners.Count)].Spawn(BombPrefab);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Assets.Source
         public bool DeadFromPlayerJump = true;
         public GameObject OnDeathEffect;
         public int Cost = 10;
+        public float PowerUpChance = 0.2F;
 
         private bool leftRotation = true;
 
@@ -47,7 +48,13 @@ namespace Assets.Source
             if (!DeadFromPlayerJump)
                 return;
 
+            Die();
+        }
+
+        public void Die()
+        {
             GameManager.Instance.AddScore(Cost);
+            SpawnManager.Instance.SpawnPowerUp(PowerUpChance);
 
             if (OnDeathEffect != null)
                 Destroy(Instantiate(OnDeathEffect, transform.position, Quaternion.identity), 5F);

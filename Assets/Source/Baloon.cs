@@ -14,10 +14,12 @@ namespace Assets.Source
         public Rope Rope;
         private Rigidbody2D baloonRigidbody;
         private bool alive = true;
+        private bool isArmoured = false;
 
         private Animator baloonAnimator;
         private const string speedAnimatorParam = "Speed";
         private const string deadAnimatorParam = "Dead";
+        private const string isArmouredAnimatorParam = "IsArmoured";
 
         public static int BaloonLayerMask;
         private const string baloonLayerName = "Baloon";
@@ -40,13 +42,27 @@ namespace Assets.Source
             baloonAnimator.SetFloat(speedAnimatorParam, baloonRigidbody.velocity.magnitude);
         }
 
+        public void ArmourUp()
+        {
+            isArmoured = true;
+            baloonAnimator.SetBool(isArmouredAnimatorParam, true);
+            baloonRigidbody.mass *= 10;
+        }
+
+        public void ToNormal()
+        {
+            isArmoured = false;
+            baloonAnimator.SetBool(isArmouredAnimatorParam, false);
+            baloonRigidbody.mass /= 10;
+        }
+
         /// <summary>
         /// Baloon was hit by enemy or projectile
         /// </summary>
         /// <param name="hit"></param>
         public void Hit(GameObject hit)
         {
-            if (!alive)
+            if (!alive || isArmoured)
                 return;
 
             alive = false;

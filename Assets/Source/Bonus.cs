@@ -8,7 +8,7 @@ namespace Assets.Source
         BaloonSizeDown,
         BaloonSizeUp,
         Armour,
-        RopeLengthUp,
+        Bomb,
     }
 
     /// <summary>
@@ -19,8 +19,26 @@ namespace Assets.Source
     {
         public BonusType BonusType;
         public float Duration = 10F;
+        public float Lifetime = 8F;
+        private float lifetimeTimer = 0;
 
         public GameObject Effect = null;
+        private SpriteRenderer thisSpriteRenderer;
+
+        public void Start()
+        {
+            thisSpriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        public void Update()
+        {
+            lifetimeTimer += Time.deltaTime;
+            float a = (Lifetime - lifetimeTimer) / Lifetime * 5;
+            a = a > 1 ? 1 : a;
+            thisSpriteRenderer.color = new Color(1, 1, 1, a);
+            if (lifetimeTimer > Lifetime)
+                Destroy(gameObject);
+        }
 
         public void OnCollisionEnter2D(Collision2D collision)
         {
@@ -30,7 +48,7 @@ namespace Assets.Source
                 PickUp(player);
 
                 if (Effect != null)
-                    Destroy(Instantiate(Effect, transform.position, Quaternion.identity));
+                    Destroy(Instantiate(Effect, transform.position, Quaternion.identity), 3F);
                 Destroy(gameObject);
             }
         }

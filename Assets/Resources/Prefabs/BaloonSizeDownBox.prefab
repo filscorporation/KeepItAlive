@@ -244,4 +244,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BonusType: 0
   Duration: 10
-  Effect: {fileID: 0}
+  Lifetime: 8
+  Effect: {fileID: 8375265830498764894, guid: 3b2867734447080448327c1a5ebf1c83, type: 3}

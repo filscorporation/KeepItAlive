@@ -161,6 +161,8 @@ MonoBehaviour:
   DeadFromPlayerJump: 1
   OnDeathEffect: {fileID: 174268021021235100, guid: cd99bb5525158f34ea4f91b82ca4f998,
     type: 3}
+  Cost: 10
+  PowerUpChance: 0.2
   Freeze: 0
   BeeProjectile: {fileID: 7755627444648480121, guid: fa3362488bc80454ba648378f6516892,
     type: 3}

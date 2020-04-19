@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Source
@@ -60,8 +58,14 @@ namespace Assets.Source
                     Baloon.transform.localScale *= 1.5F;
                     break;
                 case BonusType.Armour:
+                    Baloon.ArmourUp();
                     break;
-                case BonusType.RopeLengthUp:
+                case BonusType.Bomb:
+                    foreach (Enemy enemy in FindObjectsOfType<Enemy>())
+                    {
+                        enemy.Die();
+                    }
+                    Camera.main.GetComponent<CameraController>().Shake(0.6F);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -79,8 +83,9 @@ namespace Assets.Source
                     Baloon.transform.localScale /= 1.5F;
                     break;
                 case BonusType.Armour:
+                    Baloon.ToNormal();
                     break;
-                case BonusType.RopeLengthUp:
+                case BonusType.Bomb:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

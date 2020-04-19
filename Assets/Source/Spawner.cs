@@ -2,12 +2,19 @@
 
 namespace Assets.Source
 {
+    public enum SpawnerType
+    {
+        Enemy,
+        Debuff,
+    }
+
     /// <summary>
     /// Spawner object that can instantiate enemies
     /// </summary>
     public class Spawner : MonoBehaviour
     {
         public GameObject SpawnEffect;
+        public SpawnerType SpawnerType = SpawnerType.Enemy;
 
         /// <summary>
         /// Spawns an enemy
