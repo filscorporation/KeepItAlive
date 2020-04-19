@@ -807,6 +807,9 @@ MonoBehaviour:
   - {fileID: 6928829077398923536, guid: b384b5665fa93654fa7776e641069f99, type: 3}
   BombPrefab: {fileID: 1344206962333407198, guid: 60cb2e3d315f26d40ad66eb1984cdbdf,
     type: 3}
+  HarderEnemyPrefabs: {fileID: 8786254068513595119, guid: 6f95e2a280384274aaac5a5c31583ccf,
+    type: 3}
+  HarderEnemiesAddTime: 10
   SpawnTimeout: 4
   ScaleFactor: 0.05
   DebuffSpawnTimeout: 10

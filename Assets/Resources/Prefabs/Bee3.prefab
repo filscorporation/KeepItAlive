@@ -144,8 +144,8 @@ MonoBehaviour:
   DeadFromPlayerJump: 1
   OnDeathEffect: {fileID: 9073519223653067285, guid: 3ab35a4465024f141bda41c93e815d15,
     type: 3}
-  Cost: 5
-  PowerUpChance: 0.1
+  Cost: 15
+  PowerUpChance: 0.5
   Freeze: 0
   FlyAmplitude: 0.2
   Speed: 4
