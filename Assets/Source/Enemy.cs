@@ -51,10 +51,11 @@ namespace Assets.Source
             Die();
         }
 
-        public void Die()
+        public void Die(bool spawnPowerUp = true)
         {
             GameManager.Instance.AddScore(Cost);
-            SpawnManager.Instance.SpawnPowerUp(PowerUpChance);
+            if (spawnPowerUp)
+                SpawnManager.Instance.SpawnPowerUp(PowerUpChance);
 
             if (OnDeathEffect != null)
                 Destroy(Instantiate(OnDeathEffect, transform.position, Quaternion.identity), 5F);

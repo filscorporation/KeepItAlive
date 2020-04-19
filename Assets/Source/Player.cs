@@ -63,7 +63,7 @@ namespace Assets.Source
                 case BonusType.Bomb:
                     foreach (Enemy enemy in FindObjectsOfType<Enemy>())
                     {
-                        enemy.Die();
+                        enemy.Die(false);
                     }
                     Camera.main.GetComponent<CameraController>().Shake(0.6F);
                     break;

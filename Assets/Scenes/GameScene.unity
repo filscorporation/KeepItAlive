@@ -742,9 +742,9 @@ MonoBehaviour:
     type: 3}
   HarderEnemiesAddTime: 10
   SpawnTimeout: 4
-  ScaleFactor: 0.03
+  ScaleFactor: 0.02
   DebuffSpawnTimeout: 10
-  BombSpawnTimeout: 20
+  BombSpawnTimeout: 25
 --- !u!4 &358142905
 Transform:
   m_ObjectHideFlags: 0

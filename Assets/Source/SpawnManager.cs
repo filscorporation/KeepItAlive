@@ -79,7 +79,21 @@ namespace Assets.Source
 
         private void Spawn()
         {
-            spawners[Random.Range(0, spawners.Count)].Spawn(EnemiesPrefabs[Random.Range(0, EnemiesPrefabs.Count)]);
+            Player player = FindObjectOfType<Player>();
+            Spawner closest = spawners.FirstOrDefault();
+            float closestDist = 100000;
+            foreach (Spawner s in spawners)
+            {
+                float dist = Vector2.Distance(s.transform.position, player.transform.position);
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closest = s;
+                }
+            }
+
+            Spawner spawner = spawners.Where(o => o != closest).ToList()[Random.Range(0, spawners.Count - 1)];
+            spawner.Spawn(EnemiesPrefabs[Random.Range(0, EnemiesPrefabs.Count)]);
             spawnTimer = SpawnTimeout;
         }
 
