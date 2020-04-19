@@ -19,9 +19,9 @@ namespace Assets.Source
 
         public void Initialize(Vector3 target)
         {
-            float AngleRad = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x);
-            float AngleDeg = (180 / Mathf.PI) * AngleRad;
-            this.transform.rotation = Quaternion.Euler(0, 0, AngleDeg);
+            float angleRad = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x);
+            float angleDeg = (180 / Mathf.PI) * angleRad;
+            transform.rotation = Quaternion.Euler(0, 0, angleDeg);
         }
 
         public void TryHit()

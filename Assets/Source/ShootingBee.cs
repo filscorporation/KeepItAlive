@@ -1,34 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor.Animations;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Assets.Source
 {
     /// <summary>
-    /// Bee
+    /// Bee that shoots
     /// </summary>
-    [RequireComponent(typeof(Animator))]
-    public class Bee : Enemy
+    public class ShootingBee : BaseBee
     {
-        public bool Freeze = false;
         public GameObject BeeProjectile;
-
-        private Vector2 basePosition;
-        private const float flyAmplitude = 0.5F;
+        
         public float Speed = 1F;
         private float minDistanceFrom;
         public float MinDistanceFrom = 5F;
         public float MinDistanceTo = 5F;
         public float AttackTimeout = 4F;
         private float attackTimeoutTimer = 0F;
-        private float flyOffset;
-
-        private Animator beeAnimator;
+        
         private const string attackAnimatorParam = "Attack";
 
         public new void Start()
@@ -36,21 +24,18 @@ namespace Assets.Source
             base.Start();
 
             basePosition = transform.position;
-            flyOffset = Random.Range(0, 1F);
             AttackTimeout += Random.Range(0, 1F);
             minDistanceFrom = Random.Range(MinDistanceFrom, MinDistanceTo);
             attackTimeoutTimer = AttackTimeout;
-            beeAnimator = GetComponent<Animator>();
         }
 
-        public void Update()
+        public new void Update()
         {
+            base.Update();
+
             attackTimeoutTimer = Mathf.Max(0, attackTimeoutTimer - Time.deltaTime);
 
             TryAttack();
-
-            if (!Freeze)
-                Fly();
         }
 
         private void TryAttack()
@@ -64,16 +49,14 @@ namespace Assets.Source
             }
         }
 
-        private void Fly()
+        protected override void Fly()
         {
             if (Vector2.Distance(Player.transform.position, basePosition) > minDistanceFrom)
             {
                 basePosition = Vector2.MoveTowards(basePosition, Player.transform.position, Speed * Time.deltaTime);
             }
 
-            transform.position = new Vector2(
-                basePosition.x,
-                basePosition.y + Mathf.Sin((DateTime.Now.Millisecond / 1000F + flyOffset) * 2 * Mathf.PI) * flyAmplitude);
+            base.Fly();
 
             RotateToPlayer();
         }
