@@ -40,11 +40,23 @@ namespace Assets.Source
 
         public void ToMainMenuButtonClick()
         {
+            GetComponent<SceneTransitionManager>().DoTransition();
+            Invoke(nameof(ToMainMenu), 1 / SceneTransitionManager.TransitionSpeed);
+        }
+
+        private void ToMainMenu()
+        {
             GameManager.Instance.SaveScore();
             SceneManager.LoadScene(MainMenuSceneName);
         }
 
         public void RestartButtonClick()
+        {
+            GetComponent<SceneTransitionManager>().DoTransition();
+            Invoke(nameof(Restart), 1 / SceneTransitionManager.TransitionSpeed);
+        }
+
+        public void Restart()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }

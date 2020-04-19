@@ -28,6 +28,12 @@ namespace Assets.Source
 
         public void PlayButtonClick()
         {
+            GetComponent<SceneTransitionManager>().DoTransition();
+            Invoke(nameof(Play), 1 / SceneTransitionManager.TransitionSpeed);
+        }
+
+        public void Play()
+        {
             SceneManager.LoadScene(GameSceneName);
         }
 

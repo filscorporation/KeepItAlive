@@ -36,7 +36,7 @@ namespace Assets.Source
             }
         }
 
-        public void Update()
+        public void LateUpdate()
         {
             DrawRope();
         }
