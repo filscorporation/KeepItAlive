@@ -11,4 +11,7 @@ Sounds with BFXR  </br>
 Background music with BoscaCeoil </br>
 Art with Aseprite </br>
  </br>
-All source files included.
+All source files included. </br>
+</br>
+Playable link: </br>
+https://filscorporation.itch.io/beeeees
